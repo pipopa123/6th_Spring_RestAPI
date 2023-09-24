@@ -1,6 +1,8 @@
 package com.example0922.demo;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -23,9 +25,9 @@ public class HelloController {
         //まどかの情報
         StringBuilder madokaBuilder = new StringBuilder();
         for (Bag madokaFavoriteBag : madokaBagList) {
-            madokaBuilder.append("お気に入りのバッグは" + madokaFavoriteBag.getColor() + "色の" +
-                            madokaFavoriteBag.getBrandName() + "のバッグです")
-                    .append("\n");
+            String bagInfo="お気に入りのバッグは"+ madokaFavoriteBag.getColor() + "色の" +
+                    madokaFavoriteBag.getBrandName() + "のバッグです";
+            madokaBuilder.append(bagInfo).append("\n");
 
 //インファーフェイスで定義したwearメソッドを呼び出す
             String wearResult = madokaFavoriteBag.wear();
@@ -35,9 +37,9 @@ public class HelloController {
         //エミリーの情報
         StringBuilder  emilyBuilder= new StringBuilder();
         for(Bag emilyFavoriteBag:emilyBagList){
-            emilyBuilder.append("お気に入りのバッグは" + emilyFavoriteBag.getColor() + "色の" +
-                            emilyFavoriteBag.getBrandName() + "のバッグです")
-                    .append("\n");
+            String bagInfo="お気に入りのバッグは"+ emilyFavoriteBag.getColor() + "色の" +
+                    emilyFavoriteBag.getBrandName() + "のバッグです";
+            emilyBuilder.append(bagInfo).append("\n");
 //インファーフェイスで定義したwearメソッドを呼び出す
             String wearResult = emilyFavoriteBag.wear();
             emilyBuilder.append(wearResult).append("\n");
@@ -48,4 +50,20 @@ public class HelloController {
         return responseBag;
 
     }
+    @PostMapping("/hello")
+    public Map<String ,String>postHello(@RequestBody Bag bag){
+        Map<String,String >responseBag =new HashMap<>();
+        StringBuilder responseBuilder = new StringBuilder();
+        String bagInfo="お気に入りのバッグは"+bag.getColor()+"色の"+
+                bag.getBrandName()+"のバッグです";
+        responseBuilder.append(bagInfo).append("\n");
+        String wearResult =bag.wear();
+        responseBuilder.append(wearResult).append("\n");
+
+        responseBag.put("Response",responseBuilder.toString());
+        return responseBag;
+
+    }
 }
+
+
